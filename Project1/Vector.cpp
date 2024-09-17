@@ -5,155 +5,177 @@ using namespace std;
 
 Vector::Vector()
 {
-	arr = nullptr;
-	size = 0;
+    arr = nullptr;
+    size = 0;
 }
+
 Vector::Vector(int s)
 {
-	size = s;
-	arr = new int[size] {0};
+    size = s;
+    arr = new int[size] {0};
 }
+
 Vector::~Vector()
 {
-	/*cout << "Destructor" << arr << endl;
-	Sleep(3000);*/
-
-	delete[]arr;
-	size = 0;
-	
+    delete[] arr;
+    size = 0;
 }
+
 void Vector::InputRand()
 {
-	for (int i = 0; i < size; i++)
-	{
-		arr[i] = rand()%41 - 20; // [-20 +20]
-	}
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand() % 41 - 20;
+    }
 }
+
 void Vector::Print()
 {
-	for (int i = 0; i < size; i++)
-	{
-		cout << arr[i] << "\t";
-	}
-	cout << "\n---------------------------------------------------\n";
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << "\t";
+    }
+    cout << "\n---------------------------------------------------\n";
 }
 
 void Vector::PushBack(int a)
 {
-	int* temp = new int[size + 1];  // содаем новый массив (тек размер +1)
+    int* temp = new int[size + 1];
 
-	for (int i = 0; i < size; i++)
-	{
-		temp[i] = arr[i]; // копируем текущие значени€ старого массива в новый массив
-	}
-	temp[size] = a; // инициализаци€ последнего элемента параметром метода
+    for (int i = 0; i < size; i++)
+    {
+        temp[i] = arr[i];
+    }
+    temp[size] = a;
 
-	delete[] arr; // удаление старого массива!
-
-	arr = temp; // перенаправл€ем указатель в объекте на новый дин. массив
-	size++;
-
+    delete[] arr;
+    arr = temp;
+    size++;
 }
 
 int Vector::PopBack()
 {
-	int* temp = new int[size - 1];
+    if (size == 0)
+        return -1;
 
-	for (int i = 0; i < size - 1; i++)
-	{
-		temp[i] = arr[i];
-	}
-	int el = arr[size - 1]; // достаем последний элемент старого массива ƒќ удалени€
+    int* temp = new int[size - 1];
 
-	delete[] arr;
-	arr = temp;
-	size--;
+    for (int i = 0; i < size - 1; i++)
+    {
+        temp[i] = arr[i];
+    }
 
-	return el;
+    int el = arr[size - 1];
+
+    delete[] arr;
+    arr = temp;
+    size--;
+
+    return el;
 }
 
 void Vector::PushStart(int b)
 {
-	int* temp = new int[size + 1]; 
+    int* temp = new int[size + 1];
 
-	for (int i = 0; i < size; i++)
-	{
-		temp[i + 1] = arr[i];
-	}
+    for (int i = 0; i < size; i++)
+    {
+        temp[i + 1] = arr[i];
+    }
 
-	temp[0] = b;
+    temp[0] = b;
 
-	delete[] arr; 
-
-	arr = temp; 
-	size++;
+    delete[] arr;
+    arr = temp;
+    size++;
 }
 
 void Vector::PushAtIndex(int index, int c)
 {
-	int* temp = new int[size + 1];
+    if (index < 0 || index > size)
+        return;
 
-	for (int i = 0; i < index; i++)
-	{
-		temp[i] = arr[i]; 
-	}
+    int* temp = new int[size + 1];
 
-	temp[index] = c;
+    for (int i = 0; i < index; i++)
+    {
+        temp[i] = arr[i];
+    }
 
-	for (int i = index; i < size; i++)
-	{
-		temp[i + 1] = arr[i]; 
-	}
+    temp[index] = c;
 
-	delete[] arr;
-	arr = temp;
-	size++;
+    for (int i = index; i < size; i++)
+    {
+        temp[i + 1] = arr[i];
+    }
+
+    delete[] arr;
+    arr = temp;
+    size++;
 }
 
 int Vector::PopStart()
 {
-	int* temp = new int[size - 1];
+    if (size == 0)
+        return -1;
 
-	for (int i = 0; i - size; i++)
-	{
-		temp[i - 1] = arr[i];
-	}
+    int* temp = new int[size - 1];
 
-	int el = arr[0];
+    for (int i = 1; i < size; i++)
+    {
+        temp[i - 1] = arr[i];
+    }
 
-	delete[] arr;
+    int el = arr[0];
 
-	arr = temp;
-	size--;
+    delete[] arr;
+    arr = temp;
+    size--;
 
-	return el;
-
+    return el;
 }
 
 int Vector::PopAtIndex(int index)
 {
-	int* temp = new int[size - 1];
+    if (index < 0 || index >= size)
+        return -1;
 
-	for (int i = 0; i - index; i++)
-	{
-		temp[i] = arr[i];
-	}
+    int* temp = new int[size - 1];
 
-	int el = temp[index];
+    for (int i = 0; i < index; i++)
+    {
+        temp[i] = arr[i];
+    }
 
-	for (int i = index; i - size; i++)
-	{
-		temp[i + 1] = arr[i];
-	}
+    int el = arr[index];
 
-	delete[] arr;
-	arr = temp;
-	size--;
+    for (int i = index + 1; i < size; i++)
+    {
+        temp[i - 1] = arr[i];
+    }
 
-	return el;
+    delete[] arr;
+    arr = temp;
+    size--;
+
+    return el;
 }
 
-int Vector::PushArr()
+void Vector::PushArr(int* newArr, int newS)
 {
-	return 0;
+    int* temp = new int[size + newS];
+
+    for (int i = 0; i < size; i++)
+    {
+        temp[i] = arr[i];
+    }
+
+    for (int i = 0; i < newS; i++)
+    {
+        temp[size + i] = newArr[i];
+    }
+
+    delete[] arr;
+    arr = temp;
+    size += newS;
 }

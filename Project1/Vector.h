@@ -23,7 +23,8 @@ public:
 	int PopStart();
 	int PopAtIndex(int index);
 
-	int PushArr();
+	void PushArr(int* newArr, int newS);
+
 
 
 };
